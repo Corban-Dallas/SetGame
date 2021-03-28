@@ -9,44 +9,36 @@ import Foundation
 import SwiftUI
 
 class SetGame {
-    var model: SetGameCore<Array<Any>>
+    var model: SetGameCore
     
     init() {
-        model = SetGameCore() {
-            return SetGame.cardsContentFactory()
-        }
-
+        model = SetGameCore() { SetGame.cardsFeaturesFactory }
     }
 
-    static func cardsContentFactory() -> Array<Array<Any>> {
-        var content = [Array<Any>]()
+    static func cardsFeaturesFactory() -> Array<Dictionary<String, Int>> {
+        var features = [Dictionary<String, Int>]()
 
-        enum Shapes: Equatable, CaseIterable {
-            case rectangle
-            case circle
-            case capsule
+        enum Shapes: Int, CaseIterable {
+            case rectangle = 1, circle, capsule
         }
-        enum Shadings: Equatable, CaseIterable {
-            case shade_1
-            case shade_2
+        enum Shadings: Int, CaseIterable {
+            case shading_1 = 1, shading_2, shading_3
         }
-        let colors = [Color.red, Color.red, Color.green]
-        let maxNumberOfShapes = 3
-
+        enum Colors: Int, CaseIterable {
+            case red = 1, green, blue
+        }
+        let maxNumberOfShapes = 4
+        
         for shape in Shapes.allCases {
-            for color in colors {
-                for shading in Shadings.allCases {
-                    for count in 1...maxNumberOfShapes {
-                        content.append([shape, color, shading, count])
+            for shading in Shadings.allCases {
+                for color in Colors.allCases {
+                    for count in 1..<maxNumberOfShapes {
+                        features.append(["shape": shape.rawValue, "shading": shading.rawValue,
+                                         "color": color.rawValue, "shapesCount": count])
                     }
                 }
             }
         }
-        return content
-
+        return features
     }
-
-
-
-
 }
