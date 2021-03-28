@@ -14,6 +14,10 @@ struct Card : Equatable {
     static func ==(lhs: Card, rhs: Card) -> Bool {
         return lhs.features == rhs.features
     }
-    
-    
+}
+
+extension Array where Element is Card {
+    func remove() {
+        
+    }
 }

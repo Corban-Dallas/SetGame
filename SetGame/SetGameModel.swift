@@ -10,8 +10,8 @@ import Foundation
 struct SetGameCore {
     var cards: Array<Card>
     var cardsOnTable = [Card]()
-
     var chosenCards = [Card]()
+    
     let numberOfFeatures = 4
     let setSize = 3
     
@@ -27,16 +27,20 @@ struct SetGameCore {
     }
     
     mutating func chose(_ card: Card) {
-        let chosenIndex = cards.firstIndex(of: card)!
-        cards[chosenIndex].isChosen = true
+        let chosenIndex = cardsOnTable.firstIndex(of: card)!
         
-        if !chosenCards.contains(card) {
-            chosenCards.append(card)
+        if cardsOnTable[chosenIndex].isChosen {
+            return
+        } else {
+            cardsOnTable[chosenIndex].isChosen = true
         }
+        
+        chosenCards.append(card)
         if chosenCards.count == setSize {
             if isSet(cardsToCheck: chosenCards) {
                 
-                print("set")
+            } else {
+                chosenCards.removeAll()
             }
         }
     }
