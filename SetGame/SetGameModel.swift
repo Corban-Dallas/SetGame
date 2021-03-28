@@ -6,47 +6,59 @@
 //
 
 import Foundation
-import SwiftUI
 
-class SetGame {
-    var core: SetGameCore<Array<Any>>
+struct SetGameCore<CardContent> where CardContent: Collection & Equatable {
+    var cards: Array<Card>
+    var chosenCards = [Card]()
+    let numberOfFeatures = 4
+    let setSize = 3
     
-    init() {
-        core = SetGameCore() {
-            return SetGame.cardsContentFactory()
+    init(cardsContentFactory: () -> Array<CardContent> ) {
+        cards = [Card]()
+        let content = cardsContentFactory()
+        for index in content.indices {
+            cards.append( Card(content: content[index]) )
         }
-
+        //numberOfFeatures = content[content.startIndex].count
     }
-
-    static func cardsContentFactory() -> Array<Array<Any>> {
-        var content = [Array<Any>]()
-
-        enum Shapes: Equatable, CaseIterable {
-            case rectangle
-            case circle
-            case capsule
+    
+    mutating func chose(_ card: Card) {
+        let chosenIndex = cards.firstIndex(of: card)!
+        cards[chosenIndex].isChosen = true
+        if !chosenCards.contains(card) {
+            chosenCards.append(card)
         }
-        enum Shadings: Equatable, CaseIterable {
-            case shade_1
-            case shade_2
-        }
-        let colors = [Color.red, Color.red, Color.green]
-        let maxNumberOfShapes = 3
-
-        for shape in Shapes.allCases {
-            for color in colors {
-                for shading in Shadings.allCases {
-                    for count in 1...maxNumberOfShapes {
-                        content.append([shape, color, shading, count])
-                    }
-                }
+        if chosenCards.count == setSize {
+            if isSet(cardsToCheck: chosenCards) {
+                
             }
         }
-        return content
+    
 
+        
+        
+        
+    }
+    
+    func isSet(cardsToCheck: Array<Card>) -> Bool {
+        var features = [Any]()
+        var index: CardContent.Index
+        
+        for featureIndex in 0..<numberOfFeatures {
+            for card in cardsToCheck {
+                index = card.content.index(card.content.startIndex, offsetBy: featureIndex)
+                features.append(card.content[index])
+            }
+        }
+        return true
     }
 
+    struct Card: Equatable {
+        let content: CardContent
+        var isChosen = false
 
-
-
+        static func == (a: Card, b: Card) -> Bool {
+            return a.content == b.content
+        }
+    }
 }
