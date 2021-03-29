@@ -18,6 +18,6 @@ struct Card : Equatable {
 
 extension Array where Element is Card {
     func remove() {
-        
+        commit
     }
 }
