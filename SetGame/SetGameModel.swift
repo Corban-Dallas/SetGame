@@ -8,51 +8,47 @@
 import Foundation
 
 struct SetGameCore {
-    var cards: Array<Card>
-    var cardsOnTable = [Card]()
+    var cardsInDeck = [Card]()
+    var shownCards = [Card]()
     var chosenCards = [Card]()
     
     let numberOfFeatures = 4
     let setSize = 3
     
-    init(cardsFeaturesFactory: () -> Array<Dictionary<String, Int>> ) {
-        cards = [Card]()
-        
-        let features = cardsFeaturesFactory()
-        for index in features.indices {
-            cards.append( Card(features: features[index]) )
+    init(cardsFeaturesFactory: () -> Array<Array<Int>> ) {
+        for features in cardsFeaturesFactory() {
+            cardsInDeck.append( Card(features: features) )
         }
-        cards.shuffle()
-        //numberOfFeatures = content[content.startIndex].count
+        cardsInDeck.shuffle()
     }
     
     mutating func chose(_ card: Card) {
-        let chosenIndex = cardsOnTable.firstIndex(of: card)!
-        
-        if cardsOnTable[chosenIndex].isChosen {
+        let chosenIndex = shownCards.firstIndex(of: card)!
+        if shownCards[chosenIndex].isChosen {
+            shownCards[chosenIndex].isChosen = false
             return
-        } else {
-            cardsOnTable[chosenIndex].isChosen = true
         }
         
+        shownCards[chosenIndex].isChosen = true
         chosenCards.append(card)
+            
         if chosenCards.count == setSize {
-            if isSet(cardsToCheck: chosenCards) {
-                
+            if chosenCards.containsSet() {
+                shownCards.removeAll(where: { $0.isChosen })
+                placeCardsOnTable()
             } else {
-                chosenCards.removeAll()
+                for index in shownCards.indices {
+                    shownCards[index].isChosen = false
+                }
             }
+            chosenCards.removeAll()
         }
     }
     
-    // Place 12 cards on table. If there is 12 cards already, add one card.
+    // Add cards on table while there are atleast 12 card and one set.
     mutating func placeCardsOnTable() {
         repeat {
-            cardsOnTable.append(cards.removeLast())
-        } while cardsOnTable.count < 12
-    }
-    
-    func isSet(cardsToCheck: Array<Card>) -> Bool {
-        return true
+            shownCards.append(cardsInDeck.removeLast())
+        } while shownCards.count < 12 && shownCards.containsSet() && !cardsInDeck.isEmpty
     }
 }

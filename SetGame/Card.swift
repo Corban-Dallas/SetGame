@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Card : Equatable {
-    let features: Dictionary<String, Int>
+struct Card : Equatable & Hashable {
+    let features: Array<Int>
     var isChosen = false
     
     static func ==(lhs: Card, rhs: Card) -> Bool {
@@ -16,8 +16,19 @@ struct Card : Equatable {
     }
 }
 
-extension Array where Element is Card {
-    func remove() {
-        commit
+extension Array where Element == Card {
+    func containsSet() -> Bool {
+        if self.isEmpty { return false }
+        
+        var uniqueFeatures = Set<Int>()
+        
+        for index in first!.features.indices {
+            self.forEach { uniqueFeatures.insert($0.features[index]) }
+            if uniqueFeatures.count == 1 || uniqueFeatures.count == 3 {
+                return true
+            }
+            uniqueFeatures.removeAll()
+        }
+        return false
     }
 }

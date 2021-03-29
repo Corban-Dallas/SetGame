@@ -15,8 +15,8 @@ class SetGame {
         model = SetGameCore() { SetGame.cardsFeaturesFactory }
     }
 
-    static func cardsFeaturesFactory() -> Array<Dictionary<String, Int>> {
-        var features = [Dictionary<String, Int>]()
+    static func cardsFeaturesFactory() -> Array<Array<Int>> {
+        var features = [Array<Int>]()
 
         enum Shapes: Int, CaseIterable {
             case rectangle = 1, circle, capsule
@@ -33,8 +33,8 @@ class SetGame {
             for shading in Shadings.allCases {
                 for color in Colors.allCases {
                     for count in 1..<maxNumberOfShapes {
-                        features.append(["shape": shape.rawValue, "shading": shading.rawValue,
-                                         "color": color.rawValue, "shapesCount": count])
+                        features.append([shape.rawValue, shading.rawValue,
+                                         color.rawValue, count])
                     }
                 }
             }
