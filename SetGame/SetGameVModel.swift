@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-class SetGame {
-    var model: SetGameCore
+class SetGame: ObservableObject {
+    @Published private var model: SetGameCore
     
     init() {
-        model = SetGameCore() { SetGame.cardsFeaturesFactory }
+        model = SetGameCore(cardsFeaturesFactory: SetGame.cardsFeaturesFactory)
     }
 
     static func cardsFeaturesFactory() -> Array<Array<Int>> {
@@ -40,5 +40,13 @@ class SetGame {
             }
         }
         return features
+    }
+    
+    public var shownCards: Array<Card> {
+        model.shownCards
+    }
+    
+    public func chose(_ card: Card) {
+        model.chose(card)
     }
 }

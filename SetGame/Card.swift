@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct Card : Equatable & Hashable {
+struct Card : Equatable & Identifiable {
     let features: Array<Int>
     var isChosen = false
+    var id: Int
     
     static func ==(lhs: Card, rhs: Card) -> Bool {
         return lhs.features == rhs.features
@@ -30,5 +31,16 @@ extension Array where Element == Card {
             uniqueFeatures.removeAll()
         }
         return false
+    }
+}
+
+extension Array where Element: Identifiable {
+    func firstIndex(matching: Element) -> Int? {
+        for index in 0..<self.count {
+            if self[index].id == matching.id {
+                return index
+            }
+        }
+        return nil
     }
 }

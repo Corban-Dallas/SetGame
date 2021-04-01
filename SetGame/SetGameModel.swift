@@ -16,10 +16,13 @@ struct SetGameCore {
     let setSize = 3
     
     init(cardsFeaturesFactory: () -> Array<Array<Int>> ) {
+        var id = 0
         for features in cardsFeaturesFactory() {
-            cardsInDeck.append( Card(features: features) )
+            cardsInDeck.append( Card(features: features, id: id) )
+            id += 1
         }
         cardsInDeck.shuffle()
+        placeCardsOnTable()
     }
     
     mutating func chose(_ card: Card) {
@@ -49,6 +52,7 @@ struct SetGameCore {
     mutating func placeCardsOnTable() {
         repeat {
             shownCards.append(cardsInDeck.removeLast())
-        } while shownCards.count < 12 && shownCards.containsSet() && !cardsInDeck.isEmpty
+        } while !(shownCards.count > 11 && shownCards.containsSet() && !cardsInDeck.isEmpty)
+        print("\(shownCards.count) on table now.")
     }
 }
