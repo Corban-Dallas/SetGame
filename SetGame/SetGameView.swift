@@ -6,13 +6,19 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct ContentView: View {
     @ObservedObject var game: SetGame
     
     var body: some View {
         VStack {
-            Grid(game.shownCards) { card in CardView(card: card) }
+            Grid(game.shownCards) { card in
+                CardView(card: card).onTapGesture() {
+                    game.chose(card)
+                }
+            }
+            Text("Scores: \(game.scores)")
                 .padding(5.0)
         }
     }
@@ -22,20 +28,35 @@ struct CardView: View {
     var card: Card
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Corner Radius@*/10.0/*@END_MENU_TOKEN@*/)
-                .stroke(Color.blue, lineWidth: 1.0)
+            RoundedRectangle(cornerRadius: 25.0)
+                .fill(Color.white)
+            RoundedRectangle(cornerRadius: 25.0)
+                .strokeBorder(Color.black, lineWidth: card.isChosen ? 5.0 : 1.0 )
+            
             cardContent(with: card.features)
         }
         .padding(5)
+        //Text("\(card.isChosen)")
+
     }
     
     struct cardContent: View {
-        let shape, shading, count: Int
+        let shape, count: Int
+        let opacity: Double
         let color: Color
 
         init(with features: Array<Int>) {
             shape = features[0]
-            shading = features[1]
+            switch features[1] {
+            case 1:
+                opacity = 0.0
+            case 2:
+                opacity = 0.5
+            case 3:
+                opacity = 1.0
+            default:
+                opacity = 1.0
+            }
             switch features[2] {
             case 1:
                 color = Color.red
@@ -46,9 +67,7 @@ struct CardView: View {
             default:
                 color = Color.black
             }
-            
             count = features[3]
-
         }
         
         var body: some View {
@@ -62,13 +81,20 @@ struct CardView: View {
                             case 1:
                                 Rectangle()
                                     .fill(color)
+                                    .opacity(opacity)
+                                    .border(color)
                                     .aspectRatio(1, contentMode: .fit)
                             case 2:
                                 Circle()
                                     .fill(color)
+                                    .opacity(opacity)
+                                    .background(Circle().strokeBorder(color))
                             case 3:
                                 Capsule()
                                     .fill(color)
+                                    .opacity(opacity)
+                                    .background(Capsule().strokeBorder(color))
+
                             default:
                                 EmptyView()
                             }
@@ -91,8 +117,6 @@ struct CardView: View {
         let symbolHeigh = CGFloat(0.4)
     }
 }
-
-
 
 
 struct ContentView_Previews: PreviewProvider {

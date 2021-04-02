@@ -8,18 +8,18 @@
 import Foundation
 
 struct SetGameCore {
-    var cardsInDeck = [Card]()
-    var shownCards = [Card]()
-    var chosenCards = [Card]()
+    private(set) var cardsInDeck = [Card]()
+    private(set) var shownCards = [Card]()
+    private(set) var chosenCards = [Card]()
     
     let numberOfFeatures = 4
     let setSize = 3
+    var scores = 0
     
     init(cardsFeaturesFactory: () -> Array<Array<Int>> ) {
-        var id = 0
-        for features in cardsFeaturesFactory() {
-            cardsInDeck.append( Card(features: features, id: id) )
-            id += 1
+        let features = cardsFeaturesFactory()
+        for index in features.indices {
+            cardsInDeck.append( Card(features: features[index], id: index) )
         }
         cardsInDeck.shuffle()
         placeCardsOnTable()
@@ -27,18 +27,18 @@ struct SetGameCore {
     
     mutating func chose(_ card: Card) {
         let chosenIndex = shownCards.firstIndex(of: card)!
-        if shownCards[chosenIndex].isChosen {
-            shownCards[chosenIndex].isChosen = false
-            return
+        print("\(card), index: \(chosenIndex)")
+        
+        if !shownCards[chosenIndex].isChosen {
+            shownCards[chosenIndex].isChosen = true
+            chosenCards.append(card)
         }
         
-        shownCards[chosenIndex].isChosen = true
-        chosenCards.append(card)
-            
         if chosenCards.count == setSize {
             if chosenCards.containsSet() {
                 shownCards.removeAll(where: { $0.isChosen })
                 placeCardsOnTable()
+                scores += 1
             } else {
                 for index in shownCards.indices {
                     shownCards[index].isChosen = false
@@ -46,13 +46,18 @@ struct SetGameCore {
             }
             chosenCards.removeAll()
         }
+ 
     }
     
     // Add cards on table while there are atleast 12 card and one set.
     mutating func placeCardsOnTable() {
+        
         repeat {
+            if cardsInDeck.isEmpty {
+                break
+            }
             shownCards.append(cardsInDeck.removeLast())
         } while !(shownCards.count > 11 && shownCards.containsSet() && !cardsInDeck.isEmpty)
-        print("\(shownCards.count) on table now.")
+        print("\(shownCards.count) cards on table now.")
     }
 }

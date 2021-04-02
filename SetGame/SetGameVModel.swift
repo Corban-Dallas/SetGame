@@ -5,7 +5,6 @@
 //  Created by Григорий Кривякин on 23.03.2021.
 //
 
-import Foundation
 import SwiftUI
 
 class SetGame: ObservableObject {
@@ -42,11 +41,17 @@ class SetGame: ObservableObject {
         return features
     }
     
-    public var shownCards: Array<Card> {
+    // MARK: - Acces to the Model
+    var shownCards: Array<Card> {
         model.shownCards
     }
     
-    public func chose(_ card: Card) {
+    var scores: Int {
+        model.scores
+    }
+    
+    // MARK: - Intent(s)
+    func chose(_ card: Card) {
         model.chose(card)
     }
 }
