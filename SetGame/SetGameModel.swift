@@ -26,12 +26,16 @@ struct SetGameCore {
     }
     
     mutating func chose(_ card: Card) {
-        let chosenIndex = shownCards.firstIndex(of: card)!
+        let chosenIndex = shownCards.firstIndex(matching: card)!
         print("\(card), index: \(chosenIndex)")
         
         if !shownCards[chosenIndex].isChosen {
             shownCards[chosenIndex].isChosen = true
             chosenCards.append(card)
+        }
+        else {
+            shownCards[chosenIndex].isChosen = false
+            chosenCards.removeAll(where: { $0.id == card.id} )
         }
         
         if chosenCards.count == setSize {

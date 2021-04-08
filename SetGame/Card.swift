@@ -7,14 +7,10 @@
 
 import Foundation
 
-struct Card : Equatable & Identifiable {
+struct Card: Identifiable {
     let features: Array<Int>
     var isChosen: Bool = false
     let id: Int
-    
-    static func ==(lhs: Card, rhs: Card) -> Bool {
-        return lhs.features == rhs.features
-    }
 }
 
 extension Array where Element == Card {
