@@ -63,13 +63,12 @@ struct CardContent: View {
                         EmptyView()
                     }
                 }
-                .padding(5)
-                .frame(width: geometry.size.width / 2.0,
-                       height: geometry.size.height / 5)
-                .rotationEffect(Angle(degrees: 45))
-                .offset(x: geometry.size.width/4.0)
+                //.padding(10)
+                .frame(width: max(geometry.size.width, geometry.size.height) / 2.5,
+                       height: max(geometry.size.width, geometry.size.height) / 4.0)
                 Spacer()
             }
+            .frame(maxWidth: .infinity)
         }
     }
 }

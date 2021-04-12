@@ -22,21 +22,26 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Grid(game.shownCards) { card in
-                Group {
+                Group() {
                     if isApeared {
                         CardView(card: card)
+                            
+                            .transition(.offset( randomPositionOffScreen() ))
+                            .animation(.easeInOut(duration: 1))
                             .onTapGesture() {
                                 game.chose(card)
                             }
-                            .transition(.offset( randomPositionOffScreen() ))
-                            .animation(.easeInOut(duration: 1))
+                    
+                            
                     }
                 }
             }
             .onAppear() { isApeared.toggle() }
-            
-            Text("Scores: \(game.scores)")
-                .padding(5.0)
+            Button("Deal cards") {
+                game.dealCards()
+            }
+            .disabled(game.deck.isEmpty)
+            .padding()
         }
     }
 }

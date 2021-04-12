@@ -46,12 +46,20 @@ class SetGame: ObservableObject {
         model.shownCards
     }
     
-    var scores: Int {
-        model.scores
+    var deck: Array<Card> {
+        model.cardsInDeck
     }
+    
     
     // MARK: - Intent(s)
     func chose(_ card: Card) {
         model.chose(card)
     }
+    
+    func dealCards() {
+        model.dealCards(number: 3)
+        model.removeFoundedSets()
+    }
+    
+    
 }

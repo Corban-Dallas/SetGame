@@ -86,11 +86,10 @@
 		F7A951B4260A432100C19702 /* SetGame */ = {
 			isa = PBXGroup;
 			children = (
+				F7B24D752624AD1A00920D50 /* Model */,
 				F73B9B1E261F60A20054F476 /* Views */,
-				F7957FA12610C62D00E06854 /* Card.swift */,
 				F7A951B5260A432100C19702 /* SetGameApp.swift */,
 				F7A951CE260A4D0600C19702 /* SetGameVModel.swift */,
-				F7A951C5260A437D00C19702 /* SetGameModel.swift */,
 				F7A951B9260A432200C19702 /* Assets.xcassets */,
 				F7A951BE260A432200C19702 /* Info.plist */,
 				F7A951BB260A432200C19702 /* Preview Content */,
@@ -104,6 +103,15 @@
 				F7A951BC260A432200C19702 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F7B24D752624AD1A00920D50 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F7A951C5260A437D00C19702 /* SetGameModel.swift */,
+				F7957FA12610C62D00E06854 /* Card.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -12,12 +12,16 @@ struct CardView: View {
     
     var body: some View {
         ZStack {
-            // Shodow
+            // Shadow
             RoundedRectangle(cornerRadius: 25.0)
                 .stroke(Color.gray, lineWidth: 5.0)
                 .blur(radius: 4.0)
                 .opacity(card.isChosen ? 1 : 0)
-                .animation(.easeInOut(duration: 0.1))
+            if let inSet = card.inSet {
+                RoundedRectangle(cornerRadius: 25.0)
+                    .stroke(inSet ? Color.green : Color.red, lineWidth: 5.0)
+                    .blur(radius: 4.0)
+            }
             // Card
             RoundedRectangle(cornerRadius: 25.0)
                 .foregroundColor(.white)
@@ -25,7 +29,8 @@ struct CardView: View {
                 .strokeBorder(Color.black, lineWidth: 1.0 )
             CardContent(with: card.features)
         }
-        .padding(5)
+        .padding(3)
+        .aspectRatio(2/3, contentMode: .fit)
     }
 }
 
