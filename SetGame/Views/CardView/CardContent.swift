@@ -40,15 +40,16 @@ struct CardContent: View {
     var body: some View {
         GeometryReader { geometry in
             VStack() {
-                Spacer()
+                Spacer(minLength: 0)
                 ForEach(0..<count) { _ in
                     switch shape {
                     case 1:
-                        Rectangle()
+                        Dimond()
                             .fill(color)
                             .opacity(opacity)
-                            .border(color)
+                            .background(Dimond().stroke(color))
                             .aspectRatio(1, contentMode: .fit)
+                            
                     case 2:
                         Circle()
                             .fill(color)
@@ -63,10 +64,9 @@ struct CardContent: View {
                         EmptyView()
                     }
                 }
-                //.padding(10)
-                .frame(width: max(geometry.size.width, geometry.size.height) / 2.5,
-                       height: max(geometry.size.width, geometry.size.height) / 4.0)
-                Spacer()
+                .frame(width: geometry.size.height / 2.5,
+                       height: geometry.size.height / 4.0)
+                Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
         }

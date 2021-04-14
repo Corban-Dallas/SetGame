@@ -47,7 +47,7 @@ class SetGame: ObservableObject {
     }
     
     var deck: Array<Card> {
-        model.cardsInDeck
+        model.deck
     }
     
     
@@ -59,6 +59,10 @@ class SetGame: ObservableObject {
     func dealCards() {
         model.dealCards(number: 3)
         model.removeFoundedSets()
+    }
+    
+    func newGame() {
+        model = SetGameCore(cardsFeaturesFactory: SetGame.cardsFeaturesFactory)
     }
     
     

@@ -11,6 +11,7 @@
 		F72566DC2614C5F400F94D97 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72566DB2614C5F400F94D97 /* GridLayout.swift */; };
 		F73B9B18261F60610054F476 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73B9B17261F60610054F476 /* CardView.swift */; };
 		F73B9B1C261F608B0054F476 /* CardContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73B9B1B261F608B0054F476 /* CardContent.swift */; };
+		F784EE48262732F6003E348A /* Dimond.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784EE47262732F6003E348A /* Dimond.swift */; };
 		F7957FA22610C62D00E06854 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7957FA12610C62D00E06854 /* Card.swift */; };
 		F7A951B6260A432100C19702 /* SetGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A951B5260A432100C19702 /* SetGameApp.swift */; };
 		F7A951B8260A432100C19702 /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A951B7260A432100C19702 /* SetGameView.swift */; };
@@ -25,6 +26,7 @@
 		F72566DB2614C5F400F94D97 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		F73B9B17261F60610054F476 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		F73B9B1B261F608B0054F476 /* CardContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContent.swift; sourceTree = "<group>"; };
+		F784EE47262732F6003E348A /* Dimond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimond.swift; sourceTree = "<group>"; };
 		F7957FA12610C62D00E06854 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		F7A951B2260A432100C19702 /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7A951B5260A432100C19702 /* SetGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameApp.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 			children = (
 				F73B9B1B261F608B0054F476 /* CardContent.swift */,
 				F73B9B17261F60610054F476 /* CardView.swift */,
+				F784EE47262732F6003E348A /* Dimond.swift */,
 			);
 			path = CardView;
 			sourceTree = "<group>";
@@ -59,12 +62,27 @@
 		F73B9B1E261F60A20054F476 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F784EE42262731A6003E348A /* Grid */,
 				F73B9B1A261F606A0054F476 /* CardView */,
-				F72566DB2614C5F400F94D97 /* GridLayout.swift */,
-				F72566D82614C5BB00F94D97 /* Grid.swift */,
-				F7A951B7260A432100C19702 /* SetGameView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F784EE42262731A6003E348A /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				F72566DB2614C5F400F94D97 /* GridLayout.swift */,
+				F72566D82614C5BB00F94D97 /* Grid.swift */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
+		F784EE43262731C7003E348A /* ModelView */ = {
+			isa = PBXGroup;
+			children = (
+				F7A951CE260A4D0600C19702 /* SetGameVModel.swift */,
+			);
+			path = ModelView;
 			sourceTree = "<group>";
 		};
 		F7A951A9260A432100C19702 = {
@@ -87,9 +105,10 @@
 			isa = PBXGroup;
 			children = (
 				F7B24D752624AD1A00920D50 /* Model */,
+				F784EE43262731C7003E348A /* ModelView */,
 				F73B9B1E261F60A20054F476 /* Views */,
 				F7A951B5260A432100C19702 /* SetGameApp.swift */,
-				F7A951CE260A4D0600C19702 /* SetGameVModel.swift */,
+				F7A951B7260A432100C19702 /* SetGameView.swift */,
 				F7A951B9260A432200C19702 /* Assets.xcassets */,
 				F7A951BE260A432200C19702 /* Info.plist */,
 				F7A951BB260A432200C19702 /* Preview Content */,
@@ -185,6 +204,7 @@
 			files = (
 				F7957FA22610C62D00E06854 /* Card.swift in Sources */,
 				F7A951CF260A4D0600C19702 /* SetGameVModel.swift in Sources */,
+				F784EE48262732F6003E348A /* Dimond.swift in Sources */,
 				F7A951B8260A432100C19702 /* SetGameView.swift in Sources */,
 				F7A951B6260A432100C19702 /* SetGameApp.swift in Sources */,
 				F7A951C6260A437D00C19702 /* SetGameModel.swift in Sources */,

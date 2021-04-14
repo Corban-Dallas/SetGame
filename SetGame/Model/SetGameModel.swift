@@ -8,7 +8,7 @@
 import Foundation
 
 struct SetGameCore {
-    private(set) var cardsInDeck = [Card]()
+    private(set) var deck = [Card]()
     private(set) var shownCards = [Card]()
     private var chosenCards: Array<Card> {
         shownCards.filter { $0.isChosen }
@@ -17,9 +17,9 @@ struct SetGameCore {
     init(cardsFeaturesFactory: () -> Array<Array<Int>> ) {
         let features = cardsFeaturesFactory()
         for index in features.indices {
-            cardsInDeck.append( Card(id: index, features: features[index]) )
+            deck.append( Card(id: index, features: features[index]) )
         }
-        //cardsInDeck.shuffle()
+        deck.shuffle()
         dealCards(number: 12)
     }
     
@@ -67,8 +67,8 @@ struct SetGameCore {
     // Add cards on table while there are atleast 12 card and one set.
     mutating func dealCards(number: Int) {
         for _ in 0..<number {
-            if cardsInDeck.isEmpty { return }
-            shownCards.append(cardsInDeck.removeLast())
+            if deck.isEmpty { return }
+            shownCards.append(deck.removeLast())
         }
     }
     // Remove founded sets from table

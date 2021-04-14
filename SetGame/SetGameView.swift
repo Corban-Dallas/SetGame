@@ -18,30 +18,31 @@ struct ContentView: View {
         return CGSize(width: 1000 * x, height: 1000 * y)
     }
 
-    
     var body: some View {
         VStack {
             Grid(game.shownCards) { card in
                 Group() {
                     if isApeared {
                         CardView(card: card)
-                            
                             .transition(.offset( randomPositionOffScreen() ))
                             .animation(.easeInOut(duration: 1))
                             .onTapGesture() {
                                 game.chose(card)
                             }
-                    
-                            
                     }
                 }
             }
             .onAppear() { isApeared.toggle() }
+            
             Button("Deal cards") {
                 game.dealCards()
             }
             .disabled(game.deck.isEmpty)
             .padding()
+            Button("New Game") {
+                game.newGame()
+            }
+            
         }
     }
 }
