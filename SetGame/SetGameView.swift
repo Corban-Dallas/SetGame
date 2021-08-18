@@ -8,31 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var game: SetGame
+    @StateObject var game: SetGame
     @State private var isApeared: Bool = false
     
-    func randomPositionOffScreen() -> CGSize {
-        let angle: Double = Double.random(in: 0.0...360.0)
-        let x: Double = cos(angle)
-        let y: Double = sin(angle)
-        return CGSize(width: 1000 * x, height: 1000 * y)
-    }
-
     var body: some View {
         VStack {
             Grid(game.shownCards) { card in
-                Group() {
-                    if isApeared {
-                        CardView(card: card)
-                            .transition(.offset( randomPositionOffScreen() ))
-                            .animation(.easeInOut(duration: 1))
-                            .onTapGesture() {
-                                game.chose(card)
-                            }
+                CardView(card: card)
+                    .transition(.offset( randomPositionOffScreen() ))
+                    .animation(.easeInOut(duration: 1))
+                    .onTapGesture() {
+                        game.chose(card)
                     }
-                }
             }
-            .onAppear() { isApeared.toggle() }
+            .onAppear { game.startNewGame() }
             
             Button("Deal cards") {
                 game.dealCards()
@@ -40,11 +29,20 @@ struct ContentView: View {
             .disabled(game.deck.isEmpty)
             .padding()
             Button("New Game") {
-                game.newGame()
+                game.startNewGame()
             }
             
         }
     }
+    
+    // TODO: - Need rewrite
+    func randomPositionOffScreen() -> CGSize {
+        let angle: Double = Double.random(in: 0.0...360.0)
+        let x: Double = cos(angle)
+        let y: Double = sin(angle)
+        return CGSize(width: 1000 * x, height: 1000 * y)
+    }
+
 }
 
 

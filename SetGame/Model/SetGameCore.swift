@@ -1,5 +1,5 @@
 //
-//  SetGameModel.swift
+//  SetGameMCore.swift
 //  SetGame
 //
 //  Created by Григорий Кривякин on 23.03.2021.
@@ -13,24 +13,24 @@ struct SetGameCore {
     private var chosenCards: Array<Card> {
         shownCards.filter { $0.isChosen }
     }
+    private var features: [[Int]]
 
     init(cardsFeaturesFactory: () -> Array<Array<Int>> ) {
-        let features = cardsFeaturesFactory()
-        for index in features.indices {
-            deck.append( Card(id: index, features: features[index]) )
-        }
-        deck.shuffle()
-        dealCards(number: 12)
+        features = cardsFeaturesFactory()
     }
     
     mutating func chose(_ card: Card) {
         print(card)
-        //
-        if chosenCards.count == 3 && !chosenCards.containsSet() {
-            shownCards.indices.forEach {
-                if shownCards[$0].isChosen {
-                    shownCards[$0].isChosen = false
-                    shownCards[$0].inSet = nil
+        // Remove or unselect 3 chosen cards
+        if chosenCards.count == 3 {
+            if chosenCards.containsSet() {
+                shownCards.removeAll(where: { $0.inSet ?? false })
+            } else {
+                chosenCards.forEach { card in
+                    if let index = shownCards.firstIndex(matching: card) {
+                        shownCards[index].inSet = nil
+                        shownCards[index].isChosen = false
+                    }
                 }
             }
         }
@@ -46,21 +46,11 @@ struct SetGameCore {
         
         // Properly set the value of "inSet" of chosen cards if 3 cards are chosen
         if chosenCards.count == 3 {
-            if chosenCards.containsSet() {
-                for index in shownCards.indices {
-                    if shownCards[index].isChosen {
-                        shownCards[index].inSet = true
-                        shownCards[index].isChosen = false
-                    }
-                }
-            } else {
-                for index in shownCards.indices {
-                    if shownCards[index].isChosen {
-                        shownCards[index].inSet = false
-                    }
+            chosenCards.forEach { card in
+                if let index = shownCards.firstIndex(matching: card) {
+                    shownCards[index].inSet = chosenCards.containsSet() ? true : false
                 }
             }
-            
         }
     }
     
@@ -71,12 +61,14 @@ struct SetGameCore {
             shownCards.append(deck.removeLast())
         }
     }
-    // Remove founded sets from table
-    mutating func removeFoundedSets() {
-        shownCards.removeAll(where: { card in
-            if let inSet = card.inSet {
-                return inSet
-            } else { return false }
-        })
+    
+    mutating func startNewGame() {
+        deck.removeAll()
+        shownCards.removeAll()
+        for index in features.indices {
+            deck.append( Card(id: index, features: features[index]) )
+        }
+        deck.shuffle()
+        dealCards(number: 12)
     }
 }

@@ -11,27 +11,33 @@ struct CardView: View {
     var card: Card
     
     var body: some View {
+        let roundedRectangle = RoundedRectangle(cornerRadius: cardCornerRadius)
+        let shadowColor = card.inSet == nil ? Color.black : card.inSet! ? Color.green : Color.red
+
         ZStack {
             // Shadow
-            RoundedRectangle(cornerRadius: 25.0)
-                .stroke(Color.gray, lineWidth: 5.0)
-                .blur(radius: 4.0)
+            roundedRectangle
+                .stroke(shadowColor, lineWidth: showdowIntensity)
+                .blur(radius: shadowRaduis)
                 .opacity(card.isChosen ? 1 : 0)
-            if let inSet = card.inSet {
-                RoundedRectangle(cornerRadius: 25.0)
-                    .stroke(inSet ? Color.green : Color.red, lineWidth: 5.0)
-                    .blur(radius: 4.0)
-            }
             // Card
-            RoundedRectangle(cornerRadius: 25.0)
+            roundedRectangle
                 .foregroundColor(.white)
-            RoundedRectangle(cornerRadius: 25.0)
-                .strokeBorder(Color.black, lineWidth: 1.0 )
+            roundedRectangle
+                .strokeBorder(Color.black, lineWidth: cardLineWidth )
             CardContent(with: card.features)
         }
         .padding(3)
-        .aspectRatio(2/3, contentMode: .fit)
+        .aspectRatio(aspectRatio, contentMode: .fit)
     }
+    
+    // MARK: - Magical constants
+    let cardLineWidth: CGFloat = 1
+    let cardCornerRadius: CGFloat = 25
+    let shadowRaduis: CGFloat = 4
+    let showdowIntensity: CGFloat = 5
+    let aspectRatio: CGFloat = 2/3
+    
 }
 
 struct CardView_Previews: PreviewProvider {
